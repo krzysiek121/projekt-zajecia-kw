@@ -12,6 +12,6 @@ public class Italy implements ICountry {
 
     @Override
     public double calculate(double a) {
-        return 0;
+        return (a * 0.22)/(1+0.2);
     }
 }
