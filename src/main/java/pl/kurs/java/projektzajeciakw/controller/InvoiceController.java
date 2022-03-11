@@ -42,7 +42,10 @@ public class InvoiceController {
 
     @GetMapping
     public ResponseEntity<List<InvoiceDto>> getAllInvoices() {
-        return ResponseEntity.ok(getListInvoiceDto());
+        return ResponseEntity.ok(invoiceService.getInvoices()
+                .stream()
+                .map(s -> modelMapper.map(s, InvoiceDto.class))
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/taxSummary")
@@ -54,14 +57,6 @@ public class InvoiceController {
     @GetMapping("/taxSummary/{month}")
     public ResponseEntity<Map<String, Double>> getAllTaxByMonth(@PathVariable(value = "month") String month) {
         return ResponseEntity.ok(invoiceService.getTaxByMonth(month, modelMapper));
-    }
-
-    public List<InvoiceDto> getListInvoiceDto() {
-
-        return invoiceService.getInvoices()
-                .stream()
-                .map(s -> modelMapper.map(s, InvoiceDto.class))
-                .collect(Collectors.toList());
     }
 
 
