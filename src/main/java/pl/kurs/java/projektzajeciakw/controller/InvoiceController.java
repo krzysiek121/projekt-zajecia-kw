@@ -3,6 +3,7 @@ package pl.kurs.java.projektzajeciakw.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.hibernate.annotations.Check;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import pl.kurs.java.projektzajeciakw.model.dto.InvoiceDto;
 import pl.kurs.java.projektzajeciakw.request.CreateInvoiceCommand;
 import pl.kurs.java.projektzajeciakw.response.AllTaxResponse;
 import pl.kurs.java.projektzajeciakw.service.InvoiceService;
+import pl.kurs.java.projektzajeciakw.validation.annotation.CheckName;
+import pl.kurs.java.projektzajeciakw.validation.annotation.CheckName;
 
 import javax.validation.Valid;
 import java.time.Month;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/invoice")
 @RequiredArgsConstructor
+@Validated
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
@@ -54,12 +58,25 @@ public class InvoiceController {
                 invoiceService.getSummaryTax(modelMapper)));
     }
 
-    @GetMapping("/taxSummary/{month}")
-    public ResponseEntity<Map<String, Double>> getAllTaxByMonth(@PathVariable(value = "month") String month) {
-        return ResponseEntity.ok(invoiceService.getTaxByMonth(month, modelMapper));
+    @GetMapping("/taxSummary/{name}")
+    public ResponseEntity<List<InvoiceDto>> getCompaniesInvoiceByName(@PathVariable(value = "name") @Valid @CheckName String name) {
+        return ResponseEntity.ok(invoiceService.getCompaniesInvoiceByName(name, modelMapper));
     }
 
+    @PostMapping("/zabawa")
+    public ResponseEntity<InvoiceDto> addObjects() {
+        invoiceService.zabawa();
+        return new ResponseEntity<>(HttpStatus.OK);
 
+
+    }
+
+    @GetMapping("/taxSummary/{name}/{month}")
+    public ResponseEntity<AllTaxResponse> getAllTaxByMonth(@PathVariable(value = "name") @CheckName String name, @PathVariable(value = "month") String month) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new AllTaxResponse(invoiceService.getTaxByMonth(name, month,modelMapper),
+                invoiceService.getSummaryTax(modelMapper)));
+    }
 }
 
 

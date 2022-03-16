@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 @Data
 @NoArgsConstructor
@@ -22,11 +19,16 @@ public class Invoice {
     private String country;
     private double amount;
     private LocalDate registrationDate;
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company owner;
 
-    public Invoice(String country, double amount, LocalDate registrationDate) {
+    public Invoice(String country, double amount, LocalDate registrationDate, Company owner ) {
         this.country = country;
         this.amount = amount;
         this.registrationDate = registrationDate;
+        this.owner = owner;
+        this.owner.getInvoices().add(this);
     }
 }
 
