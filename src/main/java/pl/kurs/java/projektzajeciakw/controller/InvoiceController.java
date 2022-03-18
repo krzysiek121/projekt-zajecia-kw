@@ -74,8 +74,8 @@ public class InvoiceController {
     @GetMapping("/taxSummary/{name}/{month}")
     public ResponseEntity<AllTaxResponse> getAllTaxByMonth(@PathVariable(value = "name") @CheckName String name, @PathVariable(value = "month") String month) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new AllTaxResponse(invoiceService.getTaxByMonth(name, month,modelMapper),
-                invoiceService.getSummaryTax(modelMapper)));
+                .body(new AllTaxResponse(invoiceService.getTaxByMonth(name, month, modelMapper),
+                        invoiceService.getSummaryTax(modelMapper)));
     }
 }
 

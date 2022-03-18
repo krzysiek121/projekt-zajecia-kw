@@ -29,7 +29,6 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final CompanyRepository companyRepository;
 
-    // private final CreateInvoiceCommand createInvoiceCommand;
 
     public InvoiceService(Set<ICountry> operations, InvoiceRepository invoiceRepository, CompanyRepository companyRepository) {
         this.operationsMap = operations.stream().collect(Collectors.toMap(ICountry::getName, Function.identity()));
@@ -94,14 +93,6 @@ public class InvoiceService {
         return map;
     }
 
-    public List<InvoiceDto> getListInvoiceDtoByMonth(String month, ModelMapper modelMapper) {
-
-        return getInvoices()
-                .stream()
-                .filter(s -> s.getRegistrationDate().getMonth().equals(Month.valueOf(month.toUpperCase(Locale.ROOT))))
-                .map(s -> modelMapper.map(s, InvoiceDto.class))
-                .collect(Collectors.toList());
-    }
 
     @Transactional
     public void zabawa() {
@@ -110,10 +101,10 @@ public class InvoiceService {
         new Invoice("PL", 200, LocalDate.now(), s1);
         new Invoice("DE", 300, LocalDate.now(), s1);
         new Invoice("FR", 200, LocalDate.now(), s1);
-        //new Invoice("napisz relacje do swojego projektu", LocalDate.now().plusDays(5), null, s1);
+
 
         companyRepository.saveAndFlush(s1);
-        // companyRepository.findBy
+
     }
 
     public List<InvoiceDto> getCompaniesInvoiceByMonthAndName(@CheckName String name, String month, ModelMapper model) {
