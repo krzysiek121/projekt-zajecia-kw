@@ -61,7 +61,6 @@ class InvoiceControllerTest {
         String pl = "PL";
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/invoice/taxSummary/Karad/March/")
-                //.content(history)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.mapCountryTax.size()").value(3));
@@ -73,7 +72,6 @@ class InvoiceControllerTest {
         String pl = "PL";
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/invoice/taxSummary/Karad/March/")
-                //.content(history)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.summaryTax").value(174));
@@ -85,11 +83,8 @@ class InvoiceControllerTest {
         String pl = "PL";
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/invoice/taxSummary/Karad/March/")
-                //.content(history)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-
-                //.andExpect(jsonPath("$.mapCountryTax.get(\"PL\")").value(93));
                 .andExpect(jsonPath("$.mapCountryTax.get(\"PL\")").value(93));
     }
 }
