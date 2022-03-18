@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorDto> handleMethodArgumentNotValidException(NullPointerException exc) {
-        return new ResponseEntity<ErrorDto>(new ErrorDto("NO_COMPANY_FOUND"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ErrorDto>(new ErrorDto("COMPANY_NOT_FOUND", 404), HttpStatus.NOT_FOUND);
     }
 
 
@@ -26,5 +26,6 @@ public class GlobalExceptionHandler {
     @Builder
     static class ErrorDto {
         private String message;
+        private int errorCode;
     }
 }
