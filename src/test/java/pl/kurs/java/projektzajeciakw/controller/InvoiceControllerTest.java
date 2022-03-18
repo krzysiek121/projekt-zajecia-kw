@@ -29,8 +29,6 @@ class InvoiceControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
     private CompanyRepository companyRepository;
 
     public void addObjects() {
